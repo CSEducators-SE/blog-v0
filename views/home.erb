@@ -1,0 +1,7 @@
+<% if logged_in? %>
+<p>You're logged in!</p><br>
+<a href="/logout">Log out!</a><br>
+<a href="/info">See some stuff about yourself</a>
+<% else %>
+<a href="/seoauth">Login!</a>
+<% end %>
