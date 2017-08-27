@@ -1,0 +1,60 @@
+ .questions {
+     width: 30%;
+     border-right: solid 1px #0ac;
+     border-left: solid 1px #0ac;
+ }
+ 
+ .interesting {
+     width: 20%;
+     border-right: solid 1px #0ac;
+     border-left: solid 1px #0ac;
+ }
+ 
+ th.questions {
+     border-bottom: solid 2px #022;
+ }
+ 
+ th.interesting {
+     border-bottom: solid 2px #022;
+ }
+ 
+ th.articles {
+     border-bottom: solid 2px #022;
+ }
+ 
+ .topbar {
+     margin-top: 0px;
+     margin-left: 0px;
+     padding-left: 0;
+     position: relative;
+     background-color: rgba(10, 10, 200, 0.5);
+ }
+ 
+ .marquee {
+     line-height: 50px;
+     white-space: nowrap;
+     overflow: hidden;
+     box-sizing: border-box;
+ }
+ 
+ .marquee p {
+     display: inline-block;
+     padding-top: 100%;
+     animation: marquee 5s linear infinite;
+ }
+ 
+ @keyframes marquee {
+     0% {
+         transform: translate(0, 0);
+     }
+     100% {
+         transform: translate(0, -100%);
+     }
+ }
+ 
+ .articleEditor {
+     width: 75%;
+     height: 75%;
+     margin-left:12.5%;
+     margin-top:2.5%
+ }
