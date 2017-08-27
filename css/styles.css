@@ -32,8 +32,6 @@
  
  .marquee {
      line-height: 50px;
-     
-     
      white-space: nowrap;
      overflow: hidden;
      box-sizing: border-box;
@@ -52,4 +50,11 @@
      100% {
          transform: translate(0, -100%);
      }
+ }
+ 
+ .articleEditor {
+     width: 75%;
+     height: 75%;
+     margin-left:12.5%;
+     margin-top:2.5%
  }
