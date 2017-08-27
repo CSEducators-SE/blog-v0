@@ -26,6 +26,16 @@ require_relative "models"
 $stdout.sync = true
 
 get "/" do
+  erb :index
+end
+
+get "/articles/new" do
+  erb :newArticle
+end
+
+=begin
+
+get "/" do
   erb :home
 end
 
@@ -74,3 +84,5 @@ get "/info" do
   @user = user
   erb :info
 end
+
+=end
