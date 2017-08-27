@@ -2,6 +2,13 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script lang="text/javascript">
+        function addArticle() {
+            alert(window.location.host||"undefined");
+        }
+
+    </script>
+
 </head>
 
 <body>
@@ -14,9 +21,9 @@
     </div>
     <table style="width:100%;">
         <tr>
-            <th class="questions">Newest Questions</th>
-            <th class="articles">Newest Articles</th>
-            <th class="interesting">Interesting posts</th>
+            <th class="questions">Newest Questions - <input type="button" id="newQuestion" value="Add new question" onclick="addArticle()"</th>
+            <th class="articles">Newest Articles - <input type="button" id="newArticle" value="Add new article"></th>
+            <th class="interesting">Interesting posts - <input type="button" id="newInterest" value="Add new interesting post"></th>
         </tr>
         <tr>
             <td class="questions">
@@ -26,8 +33,10 @@
 
             </td>
             <td class="interesting">
-                
-                <div class="marquee"><p>Here we'll put some good stuff</p></div>
+
+                <div class="marquee">
+                    <p>Here we'll put some good stuff</p>
+                </div>
             </td>
         </tr>
 
