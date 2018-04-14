@@ -2,13 +2,16 @@ require "sinatra"
 require "net/http"
 require "securerandom"
 require "sinatra/activerecord"
+require 'rack-flash'
 require_relative "models"
 
 enable :sessions
 
+use Rack::Flash
+
 set :session_secret, ENV['SESSION_SECRET'] || SecureRandom.hex(64)
 
-configure :production, :development do
+configure :production do
 	db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
 	ActiveRecord::Base.establish_connection(
@@ -21,22 +24,49 @@ configure :production, :development do
 	)
 end
 
-require_relative "models"
+configure :development do
+  ActiveRecord::Base.establish_connection(
+    :adapter => "sqlite3",
+    :database  => "db/dev.sqlite"
+  )
+end
 
 $stdout.sync = true
 
 get "/" do
-  erb :index
-end
-
-get "/articles/new" do
-  erb :newArticle
-end
-
-=begin
-
-get "/" do
   erb :home
+end
+
+get "/create" do
+  if !logged_in?
+    flash[:danger] = "You're not logged in!"
+    redirect back
+  end
+  erb :create
+end
+
+get '/posts' do
+  Post.all.map { |post| {title: post.title.to_s, body: post.body.to_s, id: post.id}}.to_json
+end
+
+get "/posts/:id" do
+  @post = Post.find(params[:id])
+  erb :post
+end
+
+get "/posts/raw/:id" do
+  post = Post.find(params[:id])
+  {title: post.title.to_s, body: post.body.to_s, id: post.id}.to_json
+end
+
+post "/create" do
+  if !logged_in?
+    flash[:danger] = "You're not logged in!"
+    redirect back
+  end
+  user = User.find_by(session: session[:id])
+  user.posts.create(body: params[:text], title: params[:title])
+  redirect "/"
 end
 
 get "/logout" do
@@ -52,6 +82,7 @@ end
 get "/seoauth/return" do
   a = Net::HTTP.post_form(URI("https://stackexchange.com/oauth/access_token/json"), client_id: ENV['SE_CLIENT_ID'], client_secret: ENV['SE_CLIENT_SECRET'], code: params[:code], redirect_uri: "#{request.base_url}/seoauth/return")
   token = JSON.parse(a.body)['access_token']
+  puts "got reply #{a.body}"
   user = api_get("me", token: token)
   if User.exists?(se_id: user['user_id'].to_i)
     b = User.find_by(se_id: user['user_id'].to_i)
@@ -84,5 +115,3 @@ get "/info" do
   @user = user
   erb :info
 end
-
-=end

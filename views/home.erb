@@ -1,7 +1,24 @@
-<% if logged_in? %>
-<p>You're logged in!</p><br>
-<a href="/logout">Log out!</a><br>
-<a href="/info">See some stuff about yourself</a>
-<% else %>
-<a href="/seoauth">Login!</a>
-<% end %>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<div id="posts">
+</div>
+<script>
+$.get("/posts", function (data) {
+  postContainer = document.getElementById("posts");
+  data = JSON.parse(data);
+  for (var i = 0; i < data.length; i++){
+    post = data[i];
+    console.log(post);
+    container = document.createElement("div");
+    titleContainer = document.createElement("a");
+    titleContainer.href = "/posts/"+post["id"];
+    title = document.createElement("h2");
+    title.innerHTML = marked(post["title"]+"");
+    titleContainer.appendChild(title);
+    body = document.createElement("p");
+    body.innerHTML = (post["body"]+"").substring(0,100)+"...";
+    container.appendChild(titleContainer);
+    container.appendChild(body);
+    postContainer.appendChild(container);
+  }
+})
+</script>

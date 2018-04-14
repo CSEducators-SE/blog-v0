@@ -1,0 +1,18 @@
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<div id="posts">
+</div>
+<script>
+$.get("/posts/raw/<%= @post.id %>", function (data) {
+  postContainer = document.getElementById("posts");
+  post = JSON.parse(data);
+  console.log(post);
+  container = document.createElement("div");
+  title = document.createElement("h2");
+  title.innerHTML = marked(post["title"]+"");
+  body = document.createElement("p");
+  body.innerHTML = marked(post["body"]+"");
+  container.appendChild(title);
+  container.appendChild(body);
+  postContainer.appendChild(container);
+})
+</script>
